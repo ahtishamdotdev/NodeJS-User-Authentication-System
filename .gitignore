@@ -1,0 +1,17 @@
+
+.env.*
+.DS_Store
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+dist/
+build/
+coverage/
+*.local
+*.log
+.idea/
+.vscode/
+*.sqlite
+*.bak
+*.tmp
+clean-code.js

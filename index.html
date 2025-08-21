@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Auth System</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f4f4f9;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      .container {
+        width: 350px;
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        text-align: center;
+      }
+      h2 {
+        margin-bottom: 15px;
+        color: #333;
+      }
+      input {
+        width: 90%;
+        padding: 10px;
+        margin: 8px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      button {
+        width: 100%;
+        padding: 10px;
+        background: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+      button:hover {
+        background: #45a049;
+      }
+      .toggle-btn {
+        background: #007bff;
+        margin-top: 15px;
+      }
+      .toggle-btn:hover {
+        background: #0056b3;
+      }
+      .hidden {
+        display: none;
+      }
+      .msg {
+        margin-top: 10px;
+        color: #d9534f;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div id="registerForm">
+        <h2>Register</h2>
+        <input
+          type="text"
+          id="username"
+          placeholder="Username"
+          required
+        /><br />
+        <input type="email" id="email" placeholder="Email" required /><br />
+        <input
+          type="password"
+          id="password"
+          placeholder="Password"
+          required
+        /><br />
+        <button onclick="registerUser()">Register</button>
+        <button class="toggle-btn" onclick="toggleForm()">
+          Already have an account? Login
+        </button>
+        <p class="msg" id="registerMsg"></p>
+      </div>
+
+      <div id="loginForm" class="hidden">
+        <h2>Login</h2>
+        <input
+          type="email"
+          id="loginEmail"
+          placeholder="Email"
+          required
+        /><br />
+        <input
+          type="password"
+          id="loginPassword"
+          placeholder="Password"
+          required
+        /><br />
+        <button onclick="loginUser()">Login</button>
+        <button class="toggle-btn" onclick="toggleForm()">
+          Don't have an account? Register
+        </button>
+        <p class="msg" id="loginMsg"></p>
+      </div>
+    </div>
+
+    <script>
+      function toggleForm() {
+        document.getElementById("registerForm").classList.toggle("hidden");
+        document.getElementById("loginForm").classList.toggle("hidden");
+      }
+
+      async function registerUser() {
+        const res = await fetch("http://localhost:5000/api/auth/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            username: document.getElementById("username").value,
+            email: document.getElementById("email").value,
+            password: document.getElementById("password").value,
+          }),
+        });
+        document.getElementById("registerMsg").textContent = await res.text();
+      }
+
+      async function loginUser() {
+        const res = await fetch("http://localhost:5000/api/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: document.getElementById("loginEmail").value,
+            password: document.getElementById("loginPassword").value,
+          }),
+        });
+        document.getElementById("loginMsg").textContent = await res.text();
+      }
+    </script>
+  </body>
+</html>
